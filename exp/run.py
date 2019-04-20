@@ -1,6 +1,8 @@
 import pandas as pd
 import json
 import os
+import yaml
+import pickle
 import warnings
 from exp.train import train_model
 from exp.mappings import alg_map
@@ -80,9 +82,10 @@ def run_experiment_script(params, search_type="random", num_searches=20, n_fold=
 
     Parameters
     ----------
-    params : dict
-        A dictionary in which the keys are keys in exp.mappings.alg_map and the values are dictionaries, where the key
-        is the hyper-parameter, and the value is a list of possible hyper-parameter values..
+    params : str or dict
+        If str, then a yml file which represents the ensuing dictionary description. If it is a dictionary the keys are
+        keys in exp.mappings.alg_map and the values are dictionaries, where the key is the hyper-parameter, and the
+        value is a list of possible hyper-parameter values.
     search_type : str
         Choices are `random` or `grid`, representing random search and grid search respectively.
     num_searches : int
@@ -134,6 +137,11 @@ def run_experiment_script(params, search_type="random", num_searches=20, n_fold=
     else:
         X_train_scaled = pd.read_csv(X_save_scaled, index_col=0)
         y_tr = pd.read_csv(y_save, index_col=0)
+
+    # load params yaml file
+    if isinstance(params, str):
+        with open(params, 'r') as stream:
+            params = yaml.load(stream)
 
     for alg in params.keys():
         print(alg)
