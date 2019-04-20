@@ -75,7 +75,7 @@ def run_experiment(X, Y, alg, alg_params, n_fold=5, X_test=None, score_df=None, 
 
 
 def run_experiment_script(params, search_type="random", num_searches=20, n_fold=10, save_results="exp.csv",
-                          train_file="train.csv", X_save="X_tr.csv", y_save="y_tr.csv",
+                          train_file="train.csv", X_save="X_tr.csv", y_save="y_tr.csv", X_save_scaled="X_tr_scaled.csv",
                           scale_params_pickle="scale_params.pickle", other_params_json="other.json"):
     """
     This is a script for running an experiment, also including creating the features and iterating through algs' params.
@@ -107,9 +107,6 @@ def run_experiment_script(params, search_type="random", num_searches=20, n_fold=
         Other relevant parameters json file location.
 
     """
-    tr_scaler = None
-    classic_sta_lta5_mean_fill = None
-    classic_sta_lta7_mean_fill = None
 
     if not (os.path.exists(X_save) and os.path.exists(y_save)):
         X_tr, X_train_scaled, y_tr, tr_scaler, classic_sta_lta5_mean_fill, classic_sta_lta7_mean_fill = \
