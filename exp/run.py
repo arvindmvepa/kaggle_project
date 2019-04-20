@@ -7,6 +7,7 @@ import warnings
 from exp.train import train_model
 from exp.mappings import alg_map
 from exp.hyp.search import random_search, grid_search
+from exp.features import create_train_features
 warnings.filterwarnings("ignore")
 
 
