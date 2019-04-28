@@ -53,19 +53,20 @@ def run_experiment(X, Y, alg, alg_params, n_fold=5, X_test=None, score_df=None, 
     if search_type == "grid":
         param_searches = grid_search(**alg_params)
     # retrieve algorithm
-    alg_cls = alg_map[alg]
+    model_cls, model_type = alg_map[alg]
 
     # run experiment
-    for param_search in param_searches:
+    for params in param_searches:
         # instantiate model from hyper-parameters
-        model = alg_cls(**param_search)
+        # model = alg_cls(**param_search)
         # debug
-        print(param_search)
+        print(params)
         # produce cv score and mad
-        score, mad = train_model(X=X, Y=Y, X_test=X_test, n_fold=n_fold, params=None, model=model)
+        score, mad = train_model(X=X, Y=Y, X_test=X_test, n_fold=n_fold, params=params, model_type=model_type,
+                                 model_cls=model_cls)
         # generate dataframe row to track alg scores
         df_ = pd.DataFrame(
-            {"alg": [alg], "score": [score], "mad": [mad], "params_json": [json.dumps(param_search, sort_keys=True)]})
+            {"alg": [alg], "score": [score], "mad": [mad], "params_json": [json.dumps(params, sort_keys=True)]})
         # save to csv file after each search completes
         if isinstance(save_results, str):
             df_.to_csv(save_results, index=False, header=False, mode="a")
