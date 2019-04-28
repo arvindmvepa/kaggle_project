@@ -1,0 +1,29 @@
+xgb:
+  num_boost_round:
+  - 5000
+  - 10000
+  - 20000
+  - 30000
+  - 40000
+  - 50000
+  eta:
+  - .01
+  - .05
+  - .1
+  max_depth:
+  - 3
+  - 5
+  - 10
+  - 20
+  subsample:
+  - .1
+  - .5
+  - .75
+  - .9
+  - 1.0
+  objective:
+  - reg:linear
+  silent:
+  - true
+  nthread:
+  - 4
