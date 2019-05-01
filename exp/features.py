@@ -53,20 +53,19 @@ def create_train_features(train_file="train.csv"):
 
     X_tr = pd.DataFrame(index=range(segments), dtype=np.float64)
     y_tr = pd.DataFrame(index=range(segments), dtype=np.float64, columns=['time_to_failure'])
-    ## Stores segment attributes that can be used to evaluate
-    ##  model errors when fit on CV folds 
-##    segment_df = pd.DataFrame(index=range(segments))
-##    current_quake_id = 0
+    
+    segment_df = pd.DataFrame(index=range(segments), columns=['quake_id','y_train'])
+    current_quake_id = 0
 
     for segment in tqdm_notebook(range(segments)):
         seg = train.iloc[segment * rows:segment * rows + rows]
         x = pd.Series(seg['acoustic_data'].values)
         y = seg['time_to_failure'].values[-1]
-##        y_min = seg['time_to_failure'].min()
-##         if y > y_min:
-##             current_quake_id += 1            
-##         segment_df.loc[segment, 'quake_id'] = current_quake_id
-##         segment_df.loc[segment, 'y_train'] = y
+        y_min = seg['time_to_failure'].min()
+        if y > y_min:
+            current_quake_id += 1
+        segment_df.loc[segment, 'quake_id'] = current_quake_id
+        segment_df.loc[segment, 'y_train'] = y
 
         y_tr.loc[segment, 'time_to_failure'] = y
         X_tr.loc[segment, 'mean'] = x.mean()
@@ -202,7 +201,7 @@ def create_train_features(train_file="train.csv"):
             X_tr.loc[segment, 'abs_max_roll_mean_' + str(windows)] = np.abs(x_roll_mean).max()
     print(f'{X_tr.shape[0]} samples in new train data and {X_tr.shape[1]} columns.')
     
-    segment_df.to_csv('../notebooks/segment_df.csv')
+    segment_df.to_csv('segment_df.csv')        
 
     # fillna in new columns
     classic_sta_lta5_mean_fill = X_tr.loc[X_tr['classic_sta_lta5_mean'] != -np.inf, 'classic_sta_lta5_mean'].mean()
