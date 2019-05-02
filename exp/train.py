@@ -36,7 +36,7 @@ def train_model(X, Y, params, X_test=None, n_fold=10, model_type='sklearn', mode
                 plot_feature_importance=False):
     """Taken from the `Earthquakes FE. More features and samples` kaggle notebook"""
     if n_fold is None:
-        return train_get_test_preds(X, Y, X_test, model_cls, model_type)
+        return train_get_test_preds(X, Y, X_test, params, model_cls, model_type)
 
     oof = np.zeros(len(X))
     if X_test is not None:
