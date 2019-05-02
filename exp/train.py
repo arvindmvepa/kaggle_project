@@ -7,6 +7,7 @@ import seaborn as sns
 import warnings
 from statsmodels import robust
 from sklearn.model_selection import KFold
+import copy
 warnings.filterwarnings("ignore")
 
 def train_get_test_preds(X, Y, X_test, params, model_cls, model_type='sklearn'):
@@ -37,6 +38,7 @@ def train_get_test_preds(X, Y, X_test, params, model_cls, model_type='sklearn'):
 def train_model(X, Y, params, X_test=None, n_fold=10, model_type='sklearn', model_cls=None,
                 plot_feature_importance=False):
     """Taken from the `Earthquakes FE. More features and samples` kaggle notebook"""
+    params = copy.deepcopy(params)
     if n_fold is None:
         return train_get_test_preds(X, Y, X_test, params, model_cls, model_type)
 
