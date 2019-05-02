@@ -20,8 +20,10 @@ def train_get_test_preds(X, Y, X_test, params, model_cls, model_type='sklearn'):
         y_pred = model.predict(X_test)
     if model_type == 'xgb':
         # add early stopping option
-        train_data = model_cls.DMatrix(data=X, label=Y, feature_names=X.columns)
-        model = model_cls.train(dtrain=train_data, **params)
+        train_data = model_cls.DMatrix(data=X_train, label=y_train, feature_names=X.columns)
+        if "num_boost_round" in params:
+            num_boost_round = params.pop("num_boost_round")
+            model = model_cls.train(dtrain=train_data, num_boost_round=num_boost_round, params=params)
         y_pred = model.predict(model_cls.DMatrix(X_test, feature_names=X.columns))
     if model_type == 'cat':
         model = model_cls(**params)
