@@ -6,11 +6,16 @@ from sklearn.metrics import mean_absolute_error
 import seaborn as sns
 import warnings
 from statsmodels import robust
-from sklearn.model_selection import KFold
+from sklearn.model_selection import KFold, train_test_split
+from exp.mappings import alg_map
 import copy
 warnings.filterwarnings("ignore")
 
-def train_get_test_preds(X, Y, X_test, params, model_cls, model_type='sklearn'):
+def train_get_test_preds(X, Y, X_test, params, alg="lr"):
+
+    # retrieve algorithm
+    model_cls, model_type = alg_map[alg]
+
     if model_type == 'sklearn':
         model = model_cls(**params)
         model.fit(X, Y)
@@ -35,12 +40,15 @@ def train_get_test_preds(X, Y, X_test, params, model_cls, model_type='sklearn'):
     return model, y_pred
 
 
-def train_model(X, Y, params, X_test=None, n_fold=10, model_type='sklearn', model_cls=None,
+def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
                 plot_feature_importance=False):
     """Taken from the `Earthquakes FE. More features and samples` kaggle notebook"""
     params = copy.deepcopy(params)
     if n_fold is None:
-        return train_get_test_preds(X, Y, X_test, params, model_cls, model_type)
+        return train_get_test_preds(X, Y, X_test, params, alg)
+
+    # retrieve algorithm
+    model_cls, model_type = alg_map[alg]
 
     oof = np.zeros(len(X))
     if X_test is not None:
@@ -61,30 +69,54 @@ def train_model(X, Y, params, X_test=None, n_fold=10, model_type='sklearn', mode
 
             if X_test is not None:
                 y_pred = model.predict(X_test)
-
         if model_type == 'lgb':
-            # add early stopping option
+            early_stopping = params.pop("early_stopping", {})
             model = model_cls(**params)
-            model.fit(X_train, y_train)
+            if early_stopping:
+                test_size = early_stopping.get("test_size", .10)
+                X_t_train, y_t_train, X_e_train, y_e_train = train_test_split(X_train, y_train, test_size = test_size)
+                eval_metric = early_stopping.get("eval_metric", "mae")
+                early_stopping_rounds = early_stopping.get("early_stopping_rounds", "200")
+                model.fit(X_t_train, y_t_train, eval_set=[(X_e_train, y_e_train)], eval_metric=eval_metric,
+                          verbose=10000, early_stopping_rounds=early_stopping_rounds)
+            else:
+                model.fit(X_train, y_train)
             y_pred_valid = model.predict(X_valid)
-
             if X_test is not None:
                 y_pred = model.predict(X_test)
 
         if model_type == 'xgb':
-            # add early stopping option
-            train_data = model_cls.DMatrix(data=X_train, label=y_train, feature_names=X.columns)
-            if "num_boost_round" in params:
-                num_boost_round = params.pop("num_boost_round")
+            early_stopping = params.pop("early_stopping", {})
+            num_boost_round = params.pop("num_boost_round", 10)
+            if early_stopping:
+                test_size = early_stopping.get("test_size", .10)
+                early_stopping_rounds = early_stopping.get("early_stopping_rounds", "200")
+                X_t_train, y_t_train, X_e_train, y_e_train = train_test_split(X_train, y_train, test_size = test_size)
+                train_t_data = model_cls.DMatrix(data=X_t_train, label=y_t_train, feature_names=X_t_train.columns)
+                valid_e_data = model_cls.DMatrix(data=X_e_train, label=y_e_train, feature_names=X_e_train.columns)
+                watchlist = [(train_t_data, 'train_t'), (valid_e_data, 'valid_e')]
+
+                model = xgb.train(dtrain=train_t_data, num_boost_round=num_boost_round, evals=watchlist,
+                                  early_stopping_rounds=early_stopping_rounds,
+                                  verbose_eval=500, params=params)
+                # double check this one again
+                y_pred = model.predict(xgb.DMatrix(X_test, feature_names=X.columns), ntree_limit=model.best_ntree_limit)
+
+            else:
+                train_data = model_cls.DMatrix(data=X_train, label=y_train, feature_names=X.columns)
                 model = model_cls.train(dtrain=train_data, num_boost_round=num_boost_round, params=params)
-            y_pred_valid = model.predict(model_cls.DMatrix(X_valid, feature_names=X.columns))
+                y_pred_valid = model.predict(model_cls.DMatrix(X_valid, feature_names=X.columns))
 
             if X_test is not None:
                 y_pred = model.predict(model_cls.DMatrix(X_test, feature_names=X.columns))
 
         if model_type == 'cat':
-            model = model_cls(**params)
-            model.fit(X_train, y_train, cat_features=[], verbose=False)
+            early_stopping = params.pop("early_stopping", {})
+            if early_stopping:
+                pass
+            else:
+                model = model_cls(**params)
+                model.fit(X_train, y_train, cat_features=[], verbose=False)
             y_pred_valid = model.predict(X_valid)
 
             if X_test is not None:

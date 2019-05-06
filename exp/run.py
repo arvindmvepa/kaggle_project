@@ -5,7 +5,6 @@ import yaml
 import pickle
 import warnings
 from exp.train import train_model
-from exp.mappings import alg_map
 from exp.hyp.search import random_search, grid_search
 from exp.features import create_train_features
 warnings.filterwarnings("ignore")
@@ -52,8 +51,6 @@ def run_experiment(X, Y, alg, alg_params, n_fold=5, X_test=None, score_df=None, 
         param_searches = random_search(num_searches=num_searches, **alg_params)
     if search_type == "grid":
         param_searches = grid_search(**alg_params)
-    # retrieve algorithm
-    model_cls, model_type = alg_map[alg]
 
     # run experiment
     for params in param_searches:
@@ -62,8 +59,7 @@ def run_experiment(X, Y, alg, alg_params, n_fold=5, X_test=None, score_df=None, 
         # debug
         print(params)
         # produce cv score and mad
-        score, mad = train_model(X=X, Y=Y, X_test=X_test, n_fold=n_fold, params=params, model_type=model_type,
-                                 model_cls=model_cls)
+        score, mad = train_model(X=X, Y=Y, X_test=X_test, n_fold=n_fold, params=params, alg=alg)
         # generate dataframe row to track alg scores
         df_ = pd.DataFrame(
             {"alg": [alg], "score": [score], "mad": [mad], "params_json": [json.dumps(params, sort_keys=True)]})
