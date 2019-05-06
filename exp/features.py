@@ -10,7 +10,42 @@ from scipy.signal import hann
 from scipy.signal import convolve
 from scipy import stats
 from tqdm import tqdm_notebook
+import kaggle_files
+import inspect
 warnings.filterwarnings("ignore")
+
+
+def load_train_features(set="standard_scaled"):
+    files_dir = os.path.dirname(inspect.getfile(kaggle_files))
+    features_dir = os.path.join(files_dir, "features")
+    if set == "standard":
+        train_dir = os.path.join(features_dir, "ind_segs", "train")
+        X = pd.read_csv(os.path.join(train_dir, "standard_138.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "standard_scaled":
+        train_dir = os.path.join(features_dir, "ind_segs", "train")
+        X = pd.read_csv(os.path.join(train_dir, "standard_138_scaled.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    else:
+        raise ValueError("Set type doesn't exist")
+
+
+def load_test_features(set="standard_scaled"):
+    files_dir = os.path.dirname(inspect.getfile(kaggle_files))
+    features_dir = os.path.join(files_dir, "features")
+    if set == "standard":
+        train_dir = os.path.join(features_dir, "ind_segs", "test")
+        X = pd.read_csv(os.path.join(train_dir, "standard_138_test.csv"), index_col=0)
+        return X
+    elif set == "standard_scaled":
+        train_dir = os.path.join(features_dir, "ind_segs", "test")
+        X = pd.read_csv(os.path.join(train_dir, "standard_138_scaled_test.csv"), index_col=0)
+        return X
+    else:
+        raise ValueError("Set type doesn't exist")
+
 
 def add_trend_feature(arr, abs_values=False):
     idx = np.array(range(len(arr)))
@@ -19,7 +54,6 @@ def add_trend_feature(arr, abs_values=False):
     lr = LinearRegression()
     lr.fit(idx.reshape(-1, 1), arr)
     return lr.coef_[0]
-
 
 def classic_sta_lta(x, length_sta, length_lta):
     sta = np.cumsum(x ** 2)
