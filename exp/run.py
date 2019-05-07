@@ -75,7 +75,7 @@ def run_experiment(X, Y, alg, alg_params, n_fold=5, X_test=None, score_df=None, 
 
 
 def run_experiment_script(params, search_type="random", num_searches=20, n_fold=10, save_results="exp.csv",
-                          train_file="train.csv", X_save="X_tr.csv", y_save="y_tr.csv", X_save_scaled="X_tr_scaled.csv",
+                          train_file="train.csv", X_save="standard_138.csv", y_save="ttf.csv", X_save_scaled="standard_138_scaled.csv",
                           scale_params_pickle="scale_params.pickle", other_params_json="other.json"):
     """
     This is a script for running an experiment, also including creating the features and iterating through algs' params.
