@@ -10,3 +10,4 @@ seaborn
 scipy
 statsmodels
 pyyaml
+jupyter
