@@ -76,7 +76,7 @@ def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
                 test_size = early_stopping.get("test_size", .10)
                 X_t_train, y_t_train, X_e_train, y_e_train = train_test_split(X_train, y_train, test_size = test_size)
                 eval_metric = early_stopping.get("eval_metric", "mae")
-                early_stopping_rounds = early_stopping.get("early_stopping_rounds", "200")
+                early_stopping_rounds = early_stopping.get("early_stopping_rounds", 200)
                 model.fit(X_t_train, y_t_train, eval_set=[(X_e_train, y_e_train)], eval_metric=eval_metric,
                           verbose=10000, early_stopping_rounds=early_stopping_rounds)
             else:

@@ -43,7 +43,7 @@ alg_map = {
     "abreg": (AdaBoostRegressor, "sklearn"),
     "gbreg": (GradientBoostingRegressor, "sklearn"),
     "mlpreg": (MLPRegressor, "sklearn"),
-    "lgb": (lgb.LGBMRegressor, "sklearn"),
+    "lgb": (lgb.LGBMRegressor, "lgb"),
     "xgb": (xgb, "xgb"),
     "cat": (CatBoostRegressor, "cat"),
 }
