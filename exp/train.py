@@ -99,26 +99,33 @@ def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
                 model = xgb.train(dtrain=train_t_data, num_boost_round=num_boost_round, evals=watchlist,
                                   early_stopping_rounds=early_stopping_rounds,
                                   verbose_eval=500, params=params)
-                # double check this one again
-                y_pred = model.predict(xgb.DMatrix(X_test, feature_names=X.columns), ntree_limit=model.best_ntree_limit)
+                y_pred_valid = model.predict(model_cls.DMatrix(X_valid, feature_names=X.columns),
+                                             ntree_limit=model.best_ntree_limit)
+                if X_test is not None:
+                    y_pred = model.predict(model_cls.DMatrix(X_test, feature_names=X.columns),
+                                           ntree_limit=model.best_ntree_limit)
 
             else:
                 train_data = model_cls.DMatrix(data=X_train, label=y_train, feature_names=X.columns)
                 model = model_cls.train(dtrain=train_data, num_boost_round=num_boost_round, params=params)
                 y_pred_valid = model.predict(model_cls.DMatrix(X_valid, feature_names=X.columns))
-
-            if X_test is not None:
-                y_pred = model.predict(model_cls.DMatrix(X_test, feature_names=X.columns))
+                if X_test is not None:
+                    y_pred = model.predict(model_cls.DMatrix(X_test, feature_names=X.columns))
 
         if model_type == 'cat':
             early_stopping = params.pop("early_stopping", {})
             if early_stopping:
-                pass
+                test_size = early_stopping.get("test_size", .10)
+                X_t_train, y_t_train, X_e_train, y_e_train = train_test_split(X_train, y_train, test_size = test_size)
+                eval_metric = early_stopping.get("eval_metric", "mae")
+                use_best_model = early_stopping.get("use_best_model", True)
+                model = model_cls(eval_metric=eval_metric, **params)
+                model.fit(X_train, y_train, eval_set=(X_e_train, y_e_train), cat_features=[],
+                          use_best_model=use_best_model, verbose=False)
             else:
                 model = model_cls(**params)
                 model.fit(X_train, y_train, cat_features=[], verbose=False)
             y_pred_valid = model.predict(X_valid)
-
             if X_test is not None:
                 y_pred = model.predict(X_test)
 
