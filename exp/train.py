@@ -96,9 +96,8 @@ def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
                 valid_e_data = model_cls.DMatrix(data=X_e_train, label=y_e_train, feature_names=X_e_train.columns)
                 watchlist = [(train_t_data, 'train_t'), (valid_e_data, 'valid_e')]
 
-                model = xgb.train(dtrain=train_t_data, num_boost_round=num_boost_round, evals=watchlist,
-                                  early_stopping_rounds=early_stopping_rounds,
-                                  verbose_eval=500, params=params)
+                model = model_cls.train(dtrain=train_t_data, num_boost_round=num_boost_round, evals=watchlist,
+                                        early_stopping_rounds=early_stopping_rounds, verbose_eval=500, params=params)
                 y_pred_valid = model.predict(model_cls.DMatrix(X_valid, feature_names=X.columns),
                                              ntree_limit=model.best_ntree_limit)
                 if X_test is not None:
@@ -117,7 +116,7 @@ def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
                 X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train, test_size = test_size)
-                eval_metric = early_stopping.get("eval_metric", "mae")
+                eval_metric = early_stopping.get("eval_metric", "MAE")
                 use_best_model = early_stopping.get("use_best_model", True)
                 model = model_cls(eval_metric=eval_metric, **params)
                 model.fit(X_train, y_train, eval_set=(X_e_train, y_e_train), cat_features=[],
