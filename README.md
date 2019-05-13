@@ -16,6 +16,8 @@ Configure Security Group:
 - Port Range: 22
 - Source: Anywhere
 NOTE: When using this setting, may have to remove the other security group rule
+
+
 Create Key (only has to be done once; later on you can just reference the key you already made):
 1. Create a new key name
     1. For example, Arvind named his key `kaggle_project`
@@ -75,5 +77,5 @@ From what's been tested, in general, running 1 experiment on a t2.small instance
         1. Make sure to have multiple log files if you are running `main.py` multiple times
     3. A nicer approach if you don’t want to capture the output: `nohup python3 main.py 2>&1 >/dev/null &`
 
-
-
+## Use Git LFS
+Git LFS is used for extremely large files. Our feature files use Git LFS. In order to use Git LFS, follow step 1 here: https://git-lfs.github.com/. For pushing any changes, follow step 2 and 3. If you would like to checkout or fetch/pull git lfs files, please enter `git lfs help` in the terminal.
