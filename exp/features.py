@@ -28,6 +28,22 @@ def load_train_features(set="standard_scaled"):
         X = pd.read_csv(os.path.join(train_dir, "standard_138_scaled.csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
         return X, y_tr
+    elif set == "routine":
+        train_dir = os.path.join(features_dir, "ind_segs", "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4195rows_996cols.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "quakeEdgeSplit":
+        train_dir = os.path.join(features_dir, "ind_segs", "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_quakebased_fillna_4153rows_984cols.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "y_quakebasedFE_4153rows_984cols.csv"))
+        return X, y_tr
+    elif set == "24000":
+        train_dir = os.path.join(features_dir, "ind_segs", "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+
     else:
         raise ValueError("Set type doesn't exist")
 
@@ -43,6 +59,19 @@ def load_test_features(set="standard_scaled"):
         train_dir = os.path.join(features_dir, "ind_segs", "test")
         X = pd.read_csv(os.path.join(train_dir, "standard_138_scaled_test.csv"), index_col=0)
         return X
+    elif set == "routine":
+        train_dir = os.path.join(features_dir, "ind_segs", "test")
+        X = pd.read_csv(os.path.join(train_dir, "Xtest_fillna_2624rows_996cols.csv"), index_col=0)
+        return X
+    elif set == "quakeEdgeSplit":
+        train_dir = os.path.join(features_dir, "ind_segs", "test")
+        X = pd.read_csv(os.path.join(train_dir, "Xtest_quakebased_fillna_2624rows_984cols.csv"), index_col=0)
+        return X
+    elif set == "24000":
+        train_dir = os.path.join(features_dir, "ind_segs", "test")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_test_X.csv"), index_col=0)
+        return X
+
     else:
         raise ValueError("Set type doesn't exist")
 

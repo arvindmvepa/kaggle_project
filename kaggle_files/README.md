@@ -15,3 +15,25 @@ Generated from `Earthquakes FE. More features and samples` kaggle notebook. Trai
 ### Time to Failure (TTF) for 4194 independent contiguous train segments of 150,000 
 Based on TTF for the last point in each 150,000 segment.
 - kaggle_project/kaggle_files/ind_segs/train/ttf.csv
+
+
+### Steven's ML4round1 for 4194 independent consecutive segments of 150k data points
+- kaggle_project/kaggle_files/ind_segs/train/X_fillna_4195rows_996cols.csv
+- kaggle_project/kaggle_files/ind_segs/test/Xtest_fillna_2624rows_996cols.csv
+
+### Steven's ML4round4 for 4153 independent consecutive segments of 150k data points
+split the train.csv into quake-based segments, each segment are chopped out at the "jump" of time_to_failure; 
+the ML4_round4_quakes_explore.png describes how each segment looks like;
+drop some NaN featrues; 
+- kaggle_project/kaggle_files/ind_segs/train/X_quakebased_fillna_4153rows_984cols.csv
+- kaggle_project/kaggle_files/ind_segs/test/Xtest_quakebased_fillna_2624rows_984cols.csv
+
+### Steven's ML5round1 for 24000 independent consecutive segments of 150k data points
+split the original train.csv into 6 segments, and sample 4000 out of each segment => total 24000 samples; 
+use StandardScalar() to scale the Xtrain & Xvalid set, which produced the scaled_train_X.csv and scaled_test_X.csv in the folder
+
+- kaggle_project/kaggle_files/ind_segs/train/ML5round1_scaled_train_X.csv
+- kaggle_project/kaggle_files/ind_segs/test/ML5round1_scaled_test_X.csv
+
+
+
