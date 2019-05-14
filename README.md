@@ -45,7 +45,7 @@ Create Key (only has to be done once; later on you can just reference the key yo
 3. `sudo apt-get install -y python3-pip jupyter-core jupyter-notebook e3`
 4. (from home directory)
     1. `emacs .bashrc`
-    2. add `export PYTHONPATH="$PYTHONPATH:/home/ubuntu/kaggle_project”` to the end of the file
+    2. add `export PYTHONPATH="$PYTHONPATH:/home/ubuntu/kaggle_project"` to the end of the file
     3. save the file
     4. `source .bashrc`
 4. clone the fork of `kaggle_project`:
