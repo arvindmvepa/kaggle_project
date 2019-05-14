@@ -6,7 +6,7 @@ While using EC2 is not necessary to use the project code, it makes more sense wh
 
 ### Launching an EC2 Instance
 - AMI type: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type (64-bit x86)
-- Instance Type: t2.small (t2.micro has issues with certain algorithms, more memory is available)
+- Instance Type: t2.small (t2.micro has issues with certain algorithms, instances with more memory are available)
 - Storage: 30 GB should be sufficient
 
 
