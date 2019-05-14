@@ -25,10 +25,10 @@ Create Key (only has to be done once; later on you can just reference the key yo
     1. `chmod 400  directory_loc_for_key/*.pem`
 
 ### Connect to EC2 instance
-**(for MacOS or Linux OS):**
+**SSH (for MacOS or Linux OS):**
 
 
-`ssh -i directory_loc_for_key/*.pem -L 8000:localhost:8888 ubuntu@public-dns-name`
+Type this command in the terminal: `ssh -i directory_loc_for_key/*.pem -L 8000:localhost:8888 ubuntu@public-dns-name`
 
 
 Fill in `directory_loc_for_key` with relevant directory and `public-dns-name`
