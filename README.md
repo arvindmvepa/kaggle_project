@@ -8,6 +8,8 @@ While using EC2 is not necessary to use the project code, it makes more sense wh
 - AMI type: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type (64-bit x86)
 - Instance Type: t2.small (t2.micro has issues with certain algorithms, more memory is available)
 - Storage: 30 GB should be sufficient
+
+
 Configure Security Group:
 - Type: SSH
 - Protocal: TCP
