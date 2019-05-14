@@ -2,7 +2,7 @@
 
 ## Setting up EC2
 
-While using EC2 is not necessary to use the project code, it makes more sense when running parameter optimization searches continuously on the cloud rather than on a personal laptop.
+While using EC2 is not necessary to use the project code, in general it's more feasible to run parameter optimization experiments continuously on the cloud rather than on a personal laptop.
 
 ### Launching an EC2 Instance
 - AMI type: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type (64-bit x86)
