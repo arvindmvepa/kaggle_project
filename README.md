@@ -49,7 +49,7 @@ Create Key (only has to be done once; later on you can just reference the key yo
     3. save the file
     4. `source .bashrc`
 4. clone the fork of `kaggle_project`:
-    1. for example, `git clone https://github.com/arvindmvepa/kaggle_project.git`
+    1. for example, `git clone https://github.com/USERNAME/kaggle_project.git`
 
 ### Run Jupyter Remotely and Access Locally
 1. (remotely) `jupyter notebook --no-browser --port=8888`
