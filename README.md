@@ -66,7 +66,7 @@ From what's been tested, in general, running 1 experiment on a t2.small instance
     1. In order to improve the speed of the search, consider breaking up the yml file into several files
         1. Search different algorithms in each yaml file
 2.	Update `main.py` with your specifications:
-    1. For example, if the yaml file is “test.yml”, num_searches is 10, and number of folds is 5, line 4 should be `run_experiment_script(params=”test.yml”, ”, num_searches=10, n_fold=5)`
+    1. For example, if the yaml file is “test.yml”, num_searches is 10, and number of folds is 5, line 4 should be `run_experiment_script(params="test.yml", save_results="test_exp.csv", num_searches=10, n_fold=5)`
     2. If you have several yml files, you have to manually edit the main file each time you run main.py
 3.	Run `main.py`
     1. You can do this simply with `python3 main.py` on the command line
