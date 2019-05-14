@@ -25,8 +25,12 @@ Create Key (only has to be done once; later on you can just reference the key yo
     1. `chmod 400  directory_loc_for_key/*.pem`
 
 ### Connect to EC2 instance
-**ssh (for MacOS or Linux OS):**
+**(for MacOS or Linux OS):**
+
+
 `ssh -i directory_loc_for_key/*.pem -L 8000:localhost:8888 ubuntu@public-dns-name`
+
+
 Fill in `directory_loc_for_key` with relevant directory and `public-dns-name`
 
 **Putty (for Windows):**
@@ -35,7 +39,7 @@ Fill in `directory_loc_for_key` with relevant directory and `public-dns-name`
 3. (Optional) Before opening the putty connection, in order to connect to a remote jupyter process, do this to your putty configuration:
     1. In the Putty side bar, click on “SSH”, and then “Tunnels”
     2. Indicate a reasonable “Source port” (8000) and “Destination” (localhost:8888) and then click on “Add”
-    3. Make sure to save your session in Putty so you don’t have to-do all the steps when using Putty.
+    3. Make sure to save your session in Putty so you don’t have re-do all the steps when using Putty.
     4. Click Open on the bottom right of the screen
 
 ### Set up EC2 environment
