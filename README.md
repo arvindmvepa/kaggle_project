@@ -26,12 +26,8 @@ Create Key (only has to be done once; later on you can just reference the key yo
 
 ### Connect to EC2 instance
 **SSH (for MacOS or Linux OS):**
-
-
-Type this command in the terminal: `ssh -i directory_loc_for_key/*.pem -L 8000:localhost:8888 ubuntu@public-dns-name`
-
-
-Fill in `directory_loc_for_key` with relevant directory and `public-dns-name`
+1. Type this command in the terminal: `ssh -i directory_loc_for_key/*.pem -L 8000:localhost:8888 ubuntu@public-dns-name`
+    1. Fill in `directory_loc_for_key` with relevant directory and `public-dns-name`
 
 **Putty (for Windows):**
 1. Download Putty (https://putty.org/)
