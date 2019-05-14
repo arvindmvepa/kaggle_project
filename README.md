@@ -16,11 +16,11 @@ Configure Security Group:
 NOTE: When using this setting, may have to remove the other security group rule
 Create Key (only has to be done once; later on you can just reference the key you already made):
 1. Create a new key name
-- For example, I named my key `kaggle_project`
+    1. For example, Arvind named his key `kaggle_project`
 2. Download the key pair and keep in a safe location
-- Cannot access instance without key pair
+    1. Cannot access instance without key pair
 3. Also, make sure to change permissions of `*pem`
-- `chmod 400  directory_loc_for_key/*.pem`
+    1. `chmod 400  directory_loc_for_key/*.pem`
 
 ### Connect to EC2 instance
 **ssh (for MacOS or Linux OS):**
@@ -38,22 +38,22 @@ Fill in `directory_loc_for_key` with relevant directory and `public-dns-name`
 
 ### Set up EC2 environment
 1. (If byobu is not installed, install it) type `byobu` in the terminal
-- Allows the current session to continue even if you disconnect
+    1. Allows the current session to continue even if you disconnect
 2. `sudo apt-get update`
 3. `sudo apt-get install -y python3-pip jupyter-core jupyter-notebook e3`
 4. (from home directory)
-- emacs .bashrc
-- add `export PYTHONPATH="$PYTHONPATH:/home/ubuntu/kaggle_project”` to the end of the file
-- save the file
-- `source .bashrc`
+    1. emacs .bashrc
+    2. add `export PYTHONPATH="$PYTHONPATH:/home/ubuntu/kaggle_project”` to the end of the file
+    3. save the file
+    4. `source .bashrc`
 4. clone the fork of `kaggle_project`:
-- for example, `git clone https://github.com/arvindmvepa/kaggle_project.git`
+    1. for example, `git clone https://github.com/arvindmvepa/kaggle_project.git`
 
 ### Run Jupyter Remotely and Access Locally
 1. (remotely) `jupyter notebook --no-browser --port=8888`
-- keep track of the token (you can also add options to not use the token)
+    1. keep track of the token (you can also add options to not use the token)
 2. (locally, via browster) `localhost:8000`
-- enter the token
+    1. enter the token
 3. From here you can run any experiments
 
 ## Run Parameter Search Experiments
