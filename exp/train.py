@@ -27,9 +27,7 @@ def train_get_test_preds(X, Y, X_test, params, alg="lr"):
     if model_type == 'xgb':
         # add early stopping option
         train_data = model_cls.DMatrix(data=X, label=Y, feature_names=X.columns)
-        if "num_boost_round" in params:
-            num_boost_round = params.pop("num_boost_round")
-            model = model_cls.train(dtrain=train_data, num_boost_round=num_boost_round, params=params)
+        model = model_cls.train(dtrain=train_data, num_boost_round=num_boost_round, params=params)
         y_pred = model.predict(model_cls.DMatrix(X_test, feature_names=X.columns))
     if model_type == 'cat':
         model = model_cls(**params)
@@ -56,6 +54,9 @@ def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
     scores = []
     feature_importance = pd.DataFrame()
 
+    early_stopping = params.pop("early_stopping", {})
+    num_boost_round = params.pop("num_boost_round", 10)
+
     folds = KFold(n_splits=n_fold, shuffle=True)
     for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
         print('Fold', fold_n, 'started at', time.ctime())
@@ -70,7 +71,6 @@ def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
             if X_test is not None:
                 y_pred = model.predict(X_test)
         if model_type == 'lgb':
-            early_stopping = params.pop("early_stopping", {})
             model = model_cls(**params)
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
@@ -86,8 +86,6 @@ def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
                 y_pred = model.predict(X_test)
 
         if model_type == 'xgb':
-            early_stopping = params.pop("early_stopping", {})
-            num_boost_round = params.pop("num_boost_round", 10)
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
                 early_stopping_rounds = early_stopping.get("early_stopping_rounds", "200")
@@ -112,7 +110,6 @@ def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
                     y_pred = model.predict(model_cls.DMatrix(X_test, feature_names=X.columns))
 
         if model_type == 'cat':
-            early_stopping = params.pop("early_stopping", {})
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
                 X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train, test_size = test_size)
