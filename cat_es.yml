@@ -1,0 +1,13 @@
+cat:
+  early_stopping:
+  - {test_size: .1}
+  - {test_size: .2}
+  iterations:
+  - 10000
+  - 20000
+  - 30000
+  - 40000
+  - 50000
+  loss_function:
+  - MAE
+  - RMSE
