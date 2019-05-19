@@ -4,6 +4,7 @@ import os
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 from sklearn.preprocessing import StandardScaler
+from scipy.stats import pearsonr
 import warnings
 from scipy.signal import hilbert
 from scipy.signal import hann
@@ -15,65 +16,99 @@ import inspect
 warnings.filterwarnings("ignore")
 
 
-def load_train_features(set="standard_scaled"):
+def load_train_features(set="standard_scaled", pc=None):
     files_dir = os.path.dirname(inspect.getfile(kaggle_files))
     features_dir = os.path.join(files_dir, "features")
+    if pc:
+        pc_str = "_pc_" + str(pc)
+    else:
+        pc_str=""
     if set == "standard":
-        train_dir = os.path.join(features_dir, "ind_segs", "train")
-        X = pd.read_csv(os.path.join(train_dir, "standard_138.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "standard_138"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
         return X, y_tr
     elif set == "standard_scaled":
-        train_dir = os.path.join(features_dir, "ind_segs", "train")
-        X = pd.read_csv(os.path.join(train_dir, "standard_138_scaled.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "standard_138_scaled"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
         return X, y_tr
     elif set == "routine":
-        train_dir = os.path.join(features_dir, "ind_segs", "train")
-        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4195rows_996cols.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4195rows_996cols"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
         return X, y_tr
     elif set == "quakeEdgeSplit":
-        train_dir = os.path.join(features_dir, "ind_segs", "train")
-        X = pd.read_csv(os.path.join(train_dir, "X_quakebased_fillna_4153rows_984cols.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_quakebased_fillna_4153rows_984cols"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "y_quakebasedFE_4153rows_984cols.csv"))
         return X, y_tr
     elif set == "24000":
-        train_dir = os.path.join(features_dir, "ind_segs", "train")
-        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
         return X, y_tr
-
     else:
         raise ValueError("Set type doesn't exist")
 
 
-def load_test_features(set="standard_scaled"):
+def load_test_features(set="standard_scaled", pc=None):
     files_dir = os.path.dirname(inspect.getfile(kaggle_files))
     features_dir = os.path.join(files_dir, "features")
+    if pc:
+        pc_str = "_pc_" + str(pc)
+    else:
+        pc_str=""
     if set == "standard":
-        train_dir = os.path.join(features_dir, "ind_segs", "test")
-        X = pd.read_csv(os.path.join(train_dir, "standard_138_test.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(train_dir, "standard_138_test"+pc_str+".csv"), index_col=0)
         return X
     elif set == "standard_scaled":
-        train_dir = os.path.join(features_dir, "ind_segs", "test")
-        X = pd.read_csv(os.path.join(train_dir, "standard_138_scaled_test.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(train_dir, "standard_138_scaled_test"+pc_str+".csv"), index_col=0)
         return X
     elif set == "routine":
-        train_dir = os.path.join(features_dir, "ind_segs", "test")
-        X = pd.read_csv(os.path.join(train_dir, "Xtest_fillna_2624rows_996cols.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(train_dir, "Xtest_fillna_2624rows_996cols"+pc_str+".csv"), index_col=0)
         return X
     elif set == "quakeEdgeSplit":
-        train_dir = os.path.join(features_dir, "ind_segs", "test")
-        X = pd.read_csv(os.path.join(train_dir, "Xtest_quakebased_fillna_2624rows_984cols.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(train_dir, "Xtest_quakebased_fillna_2624rows_984cols"+pc_str+".csv"), index_col=0)
         return X
     elif set == "24000":
-        train_dir = os.path.join(features_dir, "ind_segs", "test")
-        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_test_X.csv"), index_col=0)
+        train_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_test_X"+pc_str+".csv"), index_col=0)
         return X
-
     else:
         raise ValueError("Set type doesn't exist")
+
+
+def feature_sel_pc(X_train, y_train, X_test, p_val=0.05):
+    pcol = []
+    pcor = []
+    pval = []
+
+    y_train = y_train['time_to_failure'].values
+
+    for col in X_train.columns:
+        pcol.append(col)
+        pcor.append(abs(pearsonr(X_train[col], y_train)[0]))
+        pval.append(abs(pearsonr(X_train[col], y_train)[1]))
+
+    df = pd.DataFrame(data={'col': pcol, 'cor': pcor, 'pval': pval}, index=range(len(pcol)))
+    df.sort_values(by=['cor', 'pval'], inplace=True)
+    df.dropna(inplace=True)
+    df = df.loc[df['pval'] <= p_val]
+
+    drop_cols = []
+
+    for col in X_train.columns:
+        if col not in df['col'].tolist():
+            drop_cols.append(col)
+
+    X_train.drop(labels=drop_cols, axis=1, inplace=True)
+    X_test.drop(labels=drop_cols, axis=1, inplace=True)
+    return X_train, X_test
 
 
 def add_trend_feature(arr, abs_values=False):
