@@ -13,7 +13,6 @@ def run_experiment(X, Y, alg, alg_params, n_fold=5, X_test=None, score_df=None, 
                    num_searches=100):
     """
     This runs a hyper-parameter search experiment.
-
     Parameters
     ----------
     alg : str
@@ -31,7 +30,6 @@ def run_experiment(X, Y, alg, alg_params, n_fold=5, X_test=None, score_df=None, 
         Choices are `random` or `grid`, representing random search and grid search respectively.
     num_searches : int
         The number of hyper-parameter searches (only applicable for random search)
-
     Returns
     -------
     Pandas.DataFrame

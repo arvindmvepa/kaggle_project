@@ -11,19 +11,16 @@ from exp.misc.util import remove_duplicates
 def random_search(num_searches=40, **kwargs):
     """
     This implements random search for hyper-parameter search.
-
     Parameters
     ----------
     num_searches : int
         The number of hyper-parameter searches.
     kwargs : dict
         A dictionary, where the key is the hyper-parameter, and the value is a list of possible hyper-parameter values
-
     Returns
     -------
     list
         A list of dicts in which each dict is a set of hyper-parameter choices for all the hyper-parameters
-
     Notes
     ------
     Lot of content taken from https://stackoverflow.com/questions/5228158/cartesian-product-of-a-dictionary-of-lists.
