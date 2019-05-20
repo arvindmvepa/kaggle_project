@@ -16,11 +16,13 @@ import inspect
 warnings.filterwarnings("ignore")
 
 
-def load_train_features(set="standard_scaled", pc=None):
+def load_train_features(set="standard_scaled"):
     files_dir = os.path.dirname(inspect.getfile(kaggle_files))
     features_dir = os.path.join(files_dir, "features")
-    if pc:
-        pc_str = "_pc_" + str(pc)
+    # extract pearson correlation string stuff
+    if "_pc_" in set:
+        pc_str = set[set.index("_pc_"):]
+        set = set[:set.index("_pc_")]
     else:
         pc_str=""
     if set == "standard":

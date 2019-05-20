@@ -40,4 +40,22 @@ use StandardScalar() to scale the Xtrain & Xvalid set, which produced the scaled
 We applied the pearson correlation coefficient to each feature column for each feature set for train with the target vector for train. We removed features that had p-values below .05 and .01 respectively for each feature set.
 
 
+## CV Results
 
+The CV results are stored in `kaggle_files/cv_results`.
+
+### exp1.csv
+
+These results are generated from `notebooks/linear_mods_hyp_exp.ipynb`.
+
+### exp2.csv
+
+These results are generated from `notebooks/other_sup_mods_hyp_exp.ipynb`.
+
+### exp3.csv
+
+These results are generated from these experiments `experiments/lgb.yml`, `experiments/lgb_es.yml`, `experiments/xgb.yml`, `experiments/xgb_es.yml`, `experiments/cat.yml`, and `experiments/cat_es.yml` (there are fewer results from catboost due to long computation time).
+
+### exp4_1.csv, exp4_2.csv, and exp4_3.csv
+
+These are generated from `experiments/fs_test1.yml`, `experiments/fs_test2.yml`, and `experiments/fs_test3.yml`. These are mostly illustrative to show the updates to CV scoring and feature set options.
