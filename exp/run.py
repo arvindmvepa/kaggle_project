@@ -9,7 +9,7 @@ import copy
 warnings.filterwarnings("ignore")
 
 
-def run_experiment(X, Y, alg, alg_params, n_fold=10, shuffle=True, rs=None, score_df=None, save_results=None,
+def run_experiment(alg, alg_params, n_fold=10, shuffle=True, rs=None, score_df=None, save_results=None,
                    search_type="random", num_searches=100):
     """
     This runs a hyper-parameter search experiment.
@@ -41,7 +41,7 @@ def run_experiment(X, Y, alg, alg_params, n_fold=10, shuffle=True, rs=None, scor
     Pandas.DataFrame
         A DataFrame of scores from the current experiment potentially with scores from previous experiment(s).
     """
-    cv_score_string = "cv_score_shuffle_" + str(shuffle) + "_rs_" + str(rs)
+    cv_score_string = "cv_score_n_folds_" + str(n_fold) + "_shuffle_" + str(shuffle) + "_rs_" + str(rs)
     null_df = pd.DataFrame({}, columns=["alg", "feature_set", cv_score_string, "mad", "params_json"])
     if score_df is None:
         score_df = null_df
@@ -93,8 +93,7 @@ def run_experiment(X, Y, alg, alg_params, n_fold=10, shuffle=True, rs=None, scor
     return score_df
 
 
-def run_experiment_script(params, search_type="random", num_searches=20, n_fold=10, shuffle=True, rs=None,
-                          save_results="exp.csv"):
+def run_experiment_script(params):
     """
     This is a script for running an experiment, also including creating the features and iterating through algs' params.
     This primarily allows you to run this on script without having to worry about using a jupyter notebook.
@@ -104,20 +103,19 @@ def run_experiment_script(params, search_type="random", num_searches=20, n_fold=
         If str, then a yml file which represents the ensuing dictionary description. If it is a dictionary the keys are
         keys in exp.mappings.alg_map and the values are dictionaries, where the key is the hyper-parameter, and the
         value is a list of possible hyper-parameter values.
-    search_type : str
-        Choices are `random` or `grid`, representing random search and grid search respectively.
-    num_searches : int
-        The number of hyper-parameter searches (only applicable for random search)
-    n_fold: int
-        The number of folds used for cross-validation.
-    save_results : str
-        If not None, the file to save experiment results to
     """
 
     # load params yaml file
     if isinstance(params, str):
         with open(params, 'r') as stream:
             params = yaml.load(stream)
+
+    save_results = params.pop("save_results", "exp.csv")
+    search_type = params.pop("search_type", "random")
+    num_searches = params.pop("num_searches", 20)
+    n_fold = params.pop("n_fold", 10)
+    shuffle = params.pop("shuffle", True)
+    rs = params.pop("rs", None)
 
     for alg in params.keys():
         print(alg)

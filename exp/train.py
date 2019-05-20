@@ -39,7 +39,7 @@ def train_get_test_preds(X, Y, X_test, params, alg="lr"):
     return model, y_pred
 
 
-def train_model(fs="standard_scaled", n_fold=10, shuffle=True, rs=None, alg="lr", plot_feature_importance=False,
+def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, alg="lr", plot_feature_importance=False,
                 test_eval=False):
     """Taken from the `Earthquakes FE. More features and samples` kaggle notebook"""
 
