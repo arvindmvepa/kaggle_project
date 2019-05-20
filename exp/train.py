@@ -8,6 +8,7 @@ import warnings
 from statsmodels import robust
 from sklearn.model_selection import KFold, train_test_split
 from exp.mappings import alg_map
+from exp.features import load_train_features, load_test_features
 import copy
 warnings.filterwarnings("ignore")
 
@@ -38,9 +39,16 @@ def train_get_test_preds(X, Y, X_test, params, alg="lr"):
     return model, y_pred
 
 
-def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
-                plot_feature_importance=False):
+def train_model(fs="standard_scaled", n_fold=10, shuffle=True, rs=None, alg="lr", plot_feature_importance=False,
+                test_eval=False):
     """Taken from the `Earthquakes FE. More features and samples` kaggle notebook"""
+
+    X, Y = load_train_features(fs)
+    if test_eval:
+        X_test = load_test_features(fs)
+    else:
+        X_test = None
+
     params = copy.deepcopy(params)
     if n_fold is None:
         return train_get_test_preds(X, Y, X_test, params, alg)
@@ -57,7 +65,7 @@ def train_model(X, Y, params, X_test=None, n_fold=10, alg="lr",
     early_stopping = params.pop("early_stopping", {})
     num_boost_round = params.pop("num_boost_round", 10)
 
-    folds = KFold(n_splits=n_fold, shuffle=True)
+    folds = KFold(n_splits=n_fold, shuffle=shuffle, random_state=rs)
     for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
         print('Fold', fold_n, 'started at', time.ctime())
         X_train, X_valid = X.iloc[train_index], X.iloc[valid_index]
