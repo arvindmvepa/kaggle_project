@@ -7,8 +7,8 @@ import seaborn as sns
 import warnings
 from statsmodels import robust
 from sklearn.model_selection import KFold, train_test_split
-from exp.mappings import alg_map
-from exp.features import load_train_features, load_test_features
+from exp.mappings import alg_map, p_dist_map
+from exp.features import load_train_features, load_test_features, feature_sel_pc
 import copy
 warnings.filterwarnings("ignore")
 
@@ -39,15 +39,40 @@ def train_get_test_preds(X, Y, X_test, params, alg="lr"):
     return model, y_pred
 
 
-def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, alg="lr", plot_feature_importance=False,
-                test_eval=False):
+def generate_train_val(X, nearest_train, sample_prop=.10, rs=None):
+    # sample with replacement from nearest train segments to test set
+    val_idxs = list(nearest_train.sample(n=int(sample_prop*len(X.index)), replace=True, random_state=rs))
+    no_repeats_val_idxs = set(val_idxs)
+    train_idxs = [i for i in range(len(X.index)) if i not in no_repeats_val_idxs]
+    return train_idxs, val_idxs
+
+
+def generate_cv_indices(X, Y, X_test, n_fold=10, test_val=False, dist="l1", top_k_features=None,
+                        sample_prop=.10, shuffle=True, rs=None):
+        if test_val:
+            dist_func = p_dist_map[dist]
+            X, X_test = X.copy(), X_test.copy()
+            X, X_test = feature_sel_pc(X, Y, X_test, top_k=top_k_features)
+            dist_train_test = pd.DataFrame(dist_func(X, X_test))
+            # minimum distance training segment per test segment
+            nearest_train = dist_train_test.idxmin(axis=0)
+            for i in range(n_fold):
+                yield generate_train_val(X, nearest_train, sample_prop=sample_prop, rs=rs+i)
+        else:
+            folds = KFold(n_splits=n_fold, shuffle=shuffle, random_state=rs)
+            for inds in folds.split(X):
+                yield inds
+
+
+def train_model(params, fs="standard_scaled", n_fold=10, test_val = False, dist="l1", top_k_features=None,
+                sample_prop=.10, shuffle=True, rs=None, alg="lr", plot_feature_importance=False, test_eval=False,
+                X=None, Y=None, X_test=None):
     """Taken from the `Earthquakes FE. More features and samples` kaggle notebook"""
 
-    X, Y = load_train_features(fs)
-    if test_eval:
-        X_test = load_test_features(fs)
-    else:
-        X_test = None
+    if fs:
+        X, Y = load_train_features(fs)
+        if test_eval:
+            X_test = load_test_features(fs)
 
     params = copy.deepcopy(params)
     if n_fold is None:
@@ -56,17 +81,18 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
     # retrieve algorithm
     model_cls, model_type = alg_map[alg]
 
-    oof = np.zeros(len(X))
+    oof = np.zeros(len(X.index))
     if X_test is not None:
-        prediction = np.zeros(len(X_test))
+        prediction = np.zeros(len(X_test.index))
     scores = []
     feature_importance = pd.DataFrame()
 
     early_stopping = params.pop("early_stopping", {})
     num_boost_round = params.pop("num_boost_round", 10)
 
-    folds = KFold(n_splits=n_fold, shuffle=shuffle, random_state=rs)
-    for fold_n, (train_index, valid_index) in enumerate(folds.split(X)):
+    folds_inds = generate_cv_indices(X, Y, X_test, n_fold=n_fold, test_val=test_val, dist=dist,
+                                     top_k_features=top_k_features, sample_prop=sample_prop, shuffle=shuffle, rs=rs)
+    for fold_n, (train_index, valid_index) in enumerate(folds_inds):
         print('Fold', fold_n, 'started at', time.ctime())
         X_train, X_valid = X.iloc[train_index], X.iloc[valid_index]
         y_train, y_valid = Y.iloc[train_index], Y.iloc[valid_index]
@@ -142,6 +168,7 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
         print('')
 
         if X_test is not None:
+            y_pred = y_pred.reshape(-1, )
             prediction += y_pred
 
         if model_type == 'lgb':

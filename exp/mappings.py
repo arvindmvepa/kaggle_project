@@ -12,6 +12,7 @@ from sklearn.neural_network import MLPRegressor
 import lightgbm as lgb
 import xgboost as xgb
 from catboost import CatBoostRegressor
+from sklearn.metrics.pairwise import euclidean_distances, manhattan_distances, cosine_distances
 
 
 # algorithm mappings
@@ -46,4 +47,11 @@ alg_map = {
     "lgb": (lgb.LGBMRegressor, "lgb"),
     "xgb": (xgb, "xgb"),
     "cat": (CatBoostRegressor, "cat"),
+}
+
+# distance metrics
+p_dist_map = {
+    "l1": euclidean_distances,
+    "l2": manhattan_distances,
+    "cos": cosine_distances,
 }

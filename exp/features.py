@@ -85,7 +85,7 @@ def load_test_features(set="standard_scaled", pc=None):
         raise ValueError("Set type doesn't exist")
 
 
-def feature_sel_pc(X_train, y_train, X_test, p_val=0.05):
+def feature_sel_pc(X_train, y_train, X_test, p_val=None, top_k=None):
     pcol = []
     pcor = []
     pval = []
@@ -98,14 +98,19 @@ def feature_sel_pc(X_train, y_train, X_test, p_val=0.05):
         pval.append(abs(pearsonr(X_train[col], y_train)[1]))
 
     df = pd.DataFrame(data={'col': pcol, 'cor': pcor, 'pval': pval}, index=range(len(pcol)))
-    df.sort_values(by=['cor', 'pval'], inplace=True)
     df.dropna(inplace=True)
-    df = df.loc[df['pval'] <= p_val]
+    if p_val:
+        keep_cols = df.loc[df['pval'] <= p_val, "col"].tolist()
+    elif top_k:
+        df.sort_values(by=['pval'], inplace=True)
+        keep_cols = df['col'].tolist()[:top_k]
+    else:
+        raise ValueError("Either p-value or top-k has to be set")
 
     drop_cols = []
 
     for col in X_train.columns:
-        if col not in df['col'].tolist():
+        if col not in keep_cols:
             drop_cols.append(col)
 
     X_train.drop(labels=drop_cols, axis=1, inplace=True)

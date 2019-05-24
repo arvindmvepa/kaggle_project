@@ -9,8 +9,8 @@ import copy
 warnings.filterwarnings("ignore")
 
 
-def run_experiment(alg, alg_params, n_fold=10, shuffle=True, rs=None, score_df=None, save_results=None,
-                   search_type="random", num_searches=100):
+def run_experiment(alg, alg_params, n_fold=10,  test_val = False, dist="l1", sample_prop=.10,  shuffle=True, rs=None,
+                   score_df=None, save_results=None, search_type="random", num_searches=100):
     """
     This runs a hyper-parameter search experiment.
 
@@ -80,7 +80,8 @@ def run_experiment(alg, alg_params, n_fold=10, shuffle=True, rs=None, score_df=N
         # extract feature set used
         fs = params.pop("fs", "standard_scaled")
         # produce cv score and mad
-        score, mad = train_model(fs=fs, n_fold=n_fold, shuffle=shuffle, rs=rs, params=params, alg=alg)
+        score, mad = train_model(fs=fs, n_fold=n_fold, test_val=test_val, dist=dist, sample_prop=sample_prop,
+                                 shuffle=shuffle, rs=rs, params=params, alg=alg)
         # generate dataframe row to track alg scores
         df_ = pd.DataFrame(
             {"alg": [alg], "feature_set": fs, cv_score_string: [score], "mad": [mad],
@@ -116,8 +117,12 @@ def run_experiment_script(params):
     n_fold = params.pop("n_fold", 10)
     shuffle = params.pop("shuffle", True)
     rs = params.pop("rs", None)
+    test_val = params.pop("test_val", False)
+    dist = params.pop("dist", "l1")
+    sample_prop = params.pop("sample_prop", .10)
 
     for alg in params.keys():
         print(alg)
-        run_experiment(n_fold=n_fold, shuffle=shuffle, rs=rs, alg=alg, alg_params=params[alg],
-                       search_type=search_type, num_searches=num_searches, save_results=save_results)
+        run_experiment(n_fold=n_fold, test_val=test_val, dist=dist, sample_prop=sample_prop, shuffle=shuffle, rs=rs,
+                       alg=alg, alg_params=params[alg], search_type=search_type, num_searches=num_searches,
+                       save_results=save_results)
