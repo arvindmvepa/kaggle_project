@@ -16,10 +16,13 @@ Generated from `Earthquakes FE. More features and samples` kaggle notebook. Trai
 Based on TTF for the last point in each 150,000 segment.
 - kaggle_project/kaggle_files/train/ttf.csv
 
-
 ### Steven's ML4round1 for 4194 independent consecutive segments of 150k data points
-- kaggle_project/kaggle_files/train/X_fillna_4195rows_996cols.csv
+- kaggle_project/kaggle_files/train/X_fillna_4194rows_996cols.csv
 - kaggle_project/kaggle_files/test/Xtest_fillna_2624rows_996cols.csv
+
+### 1320 Features (including FFT and Energy Features) for 4194 independent consecutive segments of 150k data points
+- kaggle_project/kaggle_files/train/X_fillna_4194rows_1328cols.csv
+- kaggle_project/kaggle_files/test/Xtest_fillna_2624rows_1328cols.csv
 
 ### Steven's ML4round4 for 4153 independent consecutive segments of 150k data points
 split the train.csv into quake-based segments, each segment are chopped out at the "jump" of time_to_failure; 
@@ -58,4 +61,12 @@ These results are generated from these experiments `experiments/lgb.yml`, `exper
 
 ### exp4_1.csv, exp4_2.csv, and exp4_3.csv
 
-These are generated from `experiments/fs_test1.yml`, `experiments/fs_test2.yml`, and `experiments/fs_test3.yml`. These are mostly illustrative to show the updates to CV scoring and feature set options.
+These are generated from `experiments/fs_standard_scaled_lgb_es.yml`, `experiments/fs_24000_lgb_es_6_folds_no_shuffle.yml`, and `experiments/fs_24000_lgb_es_6_folds_shuffle.yml`. These are mostly illustrative to show the updates to CV scoring and feature set options.
+
+### exp5.csv
+
+These are generated from `experiments/fs_standard_scaled_lgb.yml`, `experiments/fs_lgb1.yml`, `experiments/fs_routine_lgb_es.yml`, `experiments/fs_routine_lgb_es1.yml`, and `experiments/fs_standard_scaled_lgb_es1.yml`. 
+
+### exp6.csv
+
+These are generated from `experiments/fs_standard_scaled_lgb2.yml` and `experiments/fs_standard_scaled_lgb_es2.yml`
