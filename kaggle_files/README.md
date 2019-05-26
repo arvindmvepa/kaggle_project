@@ -61,7 +61,7 @@ These results are generated from these experiments `experiments/lgb.yml`, `exper
 
 ### exp4_1.csv, exp4_2.csv, and exp4_3.csv
 
-These are generated from `experiments/fs_test1.yml`, `experiments/fs_test2.yml`, and `experiments/fs_test3.yml`. These are mostly illustrative to show the updates to CV scoring and feature set options.
+These are generated from `experiments/fs_standard_scaled_lgb_es.yml`, `experiments/fs_test2.yml`, and `experiments/fs_test3.yml`. These are mostly illustrative to show the updates to CV scoring and feature set options.
 
 ### exp5.csv
 
