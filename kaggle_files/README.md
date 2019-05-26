@@ -65,7 +65,7 @@ These are generated from `experiments/fs_standard_scaled_lgb_es.yml`, `experimen
 
 ### exp5.csv
 
-These are generated from `experiments/fs_standard_scaled_lgb.yml`, `experiments/fs_lgb1.yml`, `experiments/fs_routine_lgb_es.yml`, `experiments/fs_routine_lgb_es1.yml`, `experiments/fs_standard_scaled_lgb_es.yml`, and `experiments/fs_standard_scaled_lgb_es1.yml`. 
+These are generated from `experiments/fs_standard_scaled_lgb.yml`, `experiments/fs_lgb1.yml`, `experiments/fs_routine_lgb_es.yml`, `experiments/fs_routine_lgb_es1.yml`, and `experiments/fs_standard_scaled_lgb_es1.yml`. 
 
 ### exp6.csv
 
