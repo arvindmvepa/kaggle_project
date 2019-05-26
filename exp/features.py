@@ -16,6 +16,16 @@ import inspect
 warnings.filterwarnings("ignore")
 
 
+def load_cv_results(cv_results_file="exp3.csv"):
+    files_dir = os.path.dirname(inspect.getfile(kaggle_files))
+    cv_results_dir = os.path.join(files_dir, "cv_results")
+    cv_results_file_path = os.path.join(cv_results_dir, cv_results_file)
+    if os.path.exists(cv_results_file_path):
+        return pd.read_csv(cv_results_file_path)
+    else:
+        raise ValueError("Result file doesn't exist")
+
+
 def load_train_features(set="standard_scaled"):
     files_dir = os.path.dirname(inspect.getfile(kaggle_files))
     features_dir = os.path.join(files_dir, "features")
@@ -37,7 +47,12 @@ def load_train_features(set="standard_scaled"):
         return X, y_tr
     elif set == "routine":
         train_dir = os.path.join(features_dir, "train")
-        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4195rows_996cols"+pc_str+".csv"), index_col=0)
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_996cols"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
         return X, y_tr
     elif set == "quakeEdgeSplit":
@@ -57,8 +72,10 @@ def load_train_features(set="standard_scaled"):
 def load_test_features(set="standard_scaled", pc=None):
     files_dir = os.path.dirname(inspect.getfile(kaggle_files))
     features_dir = os.path.join(files_dir, "features")
-    if pc:
-        pc_str = "_pc_" + str(pc)
+    # extract pearson correlation string stuff
+    if "_pc_" in set:
+        pc_str = set[set.index("_pc_"):]
+        set = set[:set.index("_pc_")]
     else:
         pc_str=""
     if set == "standard":
@@ -73,6 +90,10 @@ def load_test_features(set="standard_scaled", pc=None):
         train_dir = os.path.join(features_dir, "test")
         X = pd.read_csv(os.path.join(train_dir, "Xtest_fillna_2624rows_996cols"+pc_str+".csv"), index_col=0)
         return X
+    elif set == "more_features":
+        train_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(train_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+".csv"), index_col=0)
+        return X
     elif set == "quakeEdgeSplit":
         train_dir = os.path.join(features_dir, "test")
         X = pd.read_csv(os.path.join(train_dir, "Xtest_quakebased_fillna_2624rows_984cols"+pc_str+".csv"), index_col=0)
@@ -85,7 +106,7 @@ def load_test_features(set="standard_scaled", pc=None):
         raise ValueError("Set type doesn't exist")
 
 
-def feature_sel_pc(X_train, y_train, X_test, p_val=0.05):
+def feature_sel_pc(X_train, y_train, X_test, p_val=None, corr_thresh=None):
     pcol = []
     pcor = []
     pval = []
@@ -100,7 +121,10 @@ def feature_sel_pc(X_train, y_train, X_test, p_val=0.05):
     df = pd.DataFrame(data={'col': pcol, 'cor': pcor, 'pval': pval}, index=range(len(pcol)))
     df.sort_values(by=['cor', 'pval'], inplace=True)
     df.dropna(inplace=True)
-    df = df.loc[df['pval'] <= p_val]
+    if p_val:
+        df = df.loc[df['pval'] <= p_val]
+    elif corr_thresh:
+        df = df.loc[df['cor'] >= corr_thresh]
 
     drop_cols = []
 
