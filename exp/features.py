@@ -79,28 +79,28 @@ def load_test_features(set="standard_scaled", pc=None):
     else:
         pc_str=""
     if set == "standard":
-        train_dir = os.path.join(features_dir, "test")
-        X = pd.read_csv(os.path.join(train_dir, "standard_138_test"+pc_str+".csv"), index_col=0)
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "standard_138_test"+pc_str+".csv"), index_col=0)
         return X
     elif set == "standard_scaled":
-        train_dir = os.path.join(features_dir, "test")
-        X = pd.read_csv(os.path.join(train_dir, "standard_138_scaled_test"+pc_str+".csv"), index_col=0)
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "standard_138_scaled_test"+pc_str+".csv"), index_col=0)
         return X
     elif set == "routine":
-        train_dir = os.path.join(features_dir, "test")
-        X = pd.read_csv(os.path.join(train_dir, "Xtest_fillna_2624rows_996cols"+pc_str+".csv"), index_col=0)
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_996cols"+pc_str+".csv"), index_col=0)
         return X
     elif set == "more_features":
-        train_dir = os.path.join(features_dir, "test")
-        X = pd.read_csv(os.path.join(train_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+".csv"), index_col=0)
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+".csv"), index_col=0)
         return X
     elif set == "quakeEdgeSplit":
-        train_dir = os.path.join(features_dir, "test")
-        X = pd.read_csv(os.path.join(train_dir, "Xtest_quakebased_fillna_2624rows_984cols"+pc_str+".csv"), index_col=0)
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_quakebased_fillna_2624rows_984cols"+pc_str+".csv"), index_col=0)
         return X
     elif set == "24000":
-        train_dir = os.path.join(features_dir, "test")
-        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_test_X"+pc_str+".csv"), index_col=0)
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "ML5round1_scaled_test_X"+pc_str+".csv"), index_col=0)
         return X
     else:
         raise ValueError("Set type doesn't exist")
