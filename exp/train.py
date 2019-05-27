@@ -170,6 +170,6 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
             plt.title('LGB Features (avg over folds)');
 
     if X_test is not None:
-        return np.mean(scores), robust.mad(scores), prediction
+        return np.mean(scores), robust.mad(scores), oof, prediction
     else:
-        return np.mean(scores), robust.mad(scores)
+        return np.mean(scores), robust.mad(scores), oof

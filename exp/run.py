@@ -80,7 +80,7 @@ def run_experiment(alg, alg_params, n_fold=10, shuffle=True, rs=None, score_df=N
         # extract feature set used
         fs = params.pop("fs", "standard_scaled")
         # produce cv score and mad
-        score, mad = train_model(fs=fs, n_fold=n_fold, shuffle=shuffle, rs=rs, params=params, alg=alg)
+        score, mad, _ = train_model(fs=fs, n_fold=n_fold, shuffle=shuffle, rs=rs, params=params, alg=alg)
         # generate dataframe row to track alg scores
         df_ = pd.DataFrame(
             {"alg": [alg], "feature_set": fs, cv_score_string: [score], "mad": [mad],
