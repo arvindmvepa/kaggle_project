@@ -55,6 +55,36 @@ def load_train_features(set="standard_scaled"):
         X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
         return X, y_tr
+    elif set == "more_features_lgb_eli_5":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_5.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_10":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_10.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_15":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_15.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_20":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_20.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_100":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_100.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_200":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_200.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
     elif set == "quakeEdgeSplit":
         train_dir = os.path.join(features_dir, "train")
         X = pd.read_csv(os.path.join(train_dir, "X_quakebased_fillna_4153rows_984cols"+pc_str+".csv"), index_col=0)
@@ -93,6 +123,30 @@ def load_test_features(set="standard_scaled", pc=None):
     elif set == "more_features":
         test_dir = os.path.join(features_dir, "test")
         X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+".csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_5":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_5.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_10":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_10.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_15":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_15.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_20":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_20.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_100":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_100.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_200":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_200.csv"), index_col=0)
         return X
     elif set == "quakeEdgeSplit":
         test_dir = os.path.join(features_dir, "test")
