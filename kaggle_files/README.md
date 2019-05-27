@@ -70,3 +70,15 @@ These are generated from `experiments/fs_standard_scaled_lgb.yml`, `experiments/
 ### exp6.csv
 
 These are generated from `experiments/fs_standard_scaled_lgb2.yml` and `experiments/fs_standard_scaled_lgb_es2.yml`
+
+### exp7.csv
+
+These are generated from `experiments/fs_more_features_lgb_eli*.yml`.
+
+### exp8_1.csv and exp8_2.csv
+
+These are generated from `experiments/fs_24000_lgb_tree*.yml` without `ns` (no shuffling) and `experiments/fs_24000_lgb_tree*ns*.yml` respectively.
+
+### exp9.csv
+
+These are generated from `experiments/fs_24000*s_5.yml`.

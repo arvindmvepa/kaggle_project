@@ -1,0 +1,30 @@
+save_results: exp9.csv
+search_type: random
+num_searches: 40
+n_fold: 5
+shuffle: False
+rs: null
+
+cat:
+  early_stopping:
+  - {test_size: .1}
+  - {test_size: .2}
+  iterations:
+  - 10000
+  - 20000
+  - 30000
+  - 40000
+  - 50000
+  loss_function:
+  - MAE
+  - RMSE
+  fs:
+  - "24000_pc_1e-05"
+  - "24000_pc_0.0001"
+  - "24000_pc_0.001"
+  - "24000_pc_0.01"
+  - "24000_pc_0.01"
+  - "24000_pc_0.05"
+  - "24000_pc_0.05"
+  - "24000"
+  - "24000"

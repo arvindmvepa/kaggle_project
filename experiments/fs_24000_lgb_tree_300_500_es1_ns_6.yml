@@ -1,0 +1,80 @@
+save_results: exp8_2.csv
+search_type: random
+num_searches: 40
+n_fold: 6
+shuffle: False
+rs: 41
+
+lgb:
+  early_stopping:
+  - {test_size: .1, early_stopping_rounds: 200}
+  - {test_size: .2, early_stopping_rounds: 200}
+  - {test_size: .1, early_stopping_rounds: 400}
+  - {test_size: .2, early_stopping_rounds: 400}
+  n_estimators:
+  - 5000
+  - 10000
+  - 1000
+  - 2000
+  - 3000
+  num_leaves:
+  - 5
+  - 5
+  - 10
+  - 10
+  - 25
+  - 25
+  - 100
+  min_data_in_leaf:
+  - 10
+  - 20
+  - 40
+  - 80
+  - 160
+  - 200
+  objective:
+  - mae
+  - huber
+  - huber
+  max_depth:
+  - -1
+  - -1
+  - -1
+  - -1
+  - 5
+  - 10
+  - 20
+  learning_rate:
+  - .01
+  boosting:
+  - gbdt
+  bagging_freq:
+  - 5
+  - 5
+  - 5
+  - 0
+  - 2
+  - 10
+  bagging_fraction:
+  - .50
+  - .80
+  - 1.0
+  verbosity:
+  - -1
+  reg_alpha:
+  - 0.0
+  - 0.001
+  - 0.01
+  - .15
+  - .4
+  reg_lambda:
+  - .35
+  - .10
+  - .20
+  - 0.0
+  - .01
+  - .4
+  fs:
+  - 24000_lgb_tree_300
+  - 24000_lgb_tree_400
+  - 24000_lgb_tree_500
