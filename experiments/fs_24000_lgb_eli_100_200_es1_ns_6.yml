@@ -1,6 +1,6 @@
 save_results: exp8_2.csv
 search_type: random
-num_searches: 400
+num_searches: 40
 n_fold: 6
 shuffle: False
 rs: 41
