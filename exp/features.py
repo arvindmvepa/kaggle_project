@@ -135,6 +135,21 @@ def load_train_features(set="standard_scaled"):
         X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_200"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
         return X, y_tr
+    elif set == "24000_lgb_tree_300":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_300"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_400":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_400"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_500":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_500"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
     else:
         raise ValueError("Set type doesn't exist")
 
@@ -191,6 +206,18 @@ def load_test_features(set="standard_scaled", pc=None):
     elif set == "more_features_lgb_eli_200":
         test_dir = os.path.join(features_dir, "test")
         X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_200.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_300":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_300.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_400":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_400.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_500":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_500.csv"), index_col=0)
         return X
     elif set == "quakeEdgeSplit":
         test_dir = os.path.join(features_dir, "test")
