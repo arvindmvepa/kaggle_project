@@ -1,0 +1,38 @@
+save_results: exp9.csv
+search_type: random
+num_searches: 20
+n_fold: 10
+shuffle: True
+rs: null
+
+svr:
+  C:
+  - .001
+  - .1
+  - 10.0
+  kernel:
+  - rbf
+  fs:
+  - standard_scaled
+  - standard_scaled_pc_0.01
+  - standard_scaled_pc_0.05
+
+etreg:
+  n_estimators:
+  - 5
+  - 10
+  - 15
+  criterion:
+  - mse
+
+lgb:
+  early_stopping:
+  - {test_size: .1, early_stopping_rounds: 200}
+  objective:
+  - mae
+  max_depth:
+  - -1
+  verbosity:
+  - -1
+  fs:
+  - standard_scaled_pc_0.01
