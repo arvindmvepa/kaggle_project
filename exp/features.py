@@ -55,6 +55,41 @@ def load_train_features(set="standard_scaled"):
         X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
         return X, y_tr
+    elif set == "more_features_lgb_eli_5":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_5.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_10":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_10.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_15":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_15.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_20":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_20.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_50":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_50.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_100":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_100.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
+    elif set == "more_features_lgb_eli_200":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "X_fillna_4194rows_1328cols"+pc_str+"_lgb_eli5_200.csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ttf.csv"), index_col=0)
+        return X, y_tr
     elif set == "quakeEdgeSplit":
         train_dir = os.path.join(features_dir, "train")
         X = pd.read_csv(os.path.join(train_dir, "X_quakebased_fillna_4153rows_984cols"+pc_str+".csv"), index_col=0)
@@ -63,6 +98,56 @@ def load_train_features(set="standard_scaled"):
     elif set == "24000":
         train_dir = os.path.join(features_dir, "train")
         X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_5":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_5"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_10":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_10"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_15":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_15"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_20":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_20"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_50":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_50"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_100":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_100"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_200":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_200"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_300":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_300"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_400":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_400"+pc_str+".csv"), index_col=0)
+        y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
+        return X, y_tr
+    elif set == "24000_lgb_tree_500":
+        train_dir = os.path.join(features_dir, "train")
+        X = pd.read_csv(os.path.join(train_dir, "ML5round1_scaled_train_X_lgb_tree_500"+pc_str+".csv"), index_col=0)
         y_tr = pd.read_csv(os.path.join(train_dir, "ML5round1_train_y.csv"))
         return X, y_tr
     else:
@@ -94,6 +179,46 @@ def load_test_features(set="standard_scaled", pc=None):
         test_dir = os.path.join(features_dir, "test")
         X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+".csv"), index_col=0)
         return X
+    elif set == "more_features_lgb_eli_5":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_5.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_10":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_10.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_15":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_15.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_20":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_20.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_50":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_50.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_100":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_100.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_200":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_200.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_300":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_300.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_400":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_400.csv"), index_col=0)
+        return X
+    elif set == "more_features_lgb_eli_500":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "Xtest_fillna_2624rows_1328cols"+pc_str+"_lgb_eli5_500.csv"), index_col=0)
+        return X
     elif set == "quakeEdgeSplit":
         test_dir = os.path.join(features_dir, "test")
         X = pd.read_csv(os.path.join(test_dir, "Xtest_quakebased_fillna_2624rows_984cols"+pc_str+".csv"), index_col=0)
@@ -101,6 +226,34 @@ def load_test_features(set="standard_scaled", pc=None):
     elif set == "24000":
         test_dir = os.path.join(features_dir, "test")
         X = pd.read_csv(os.path.join(test_dir, "ML5round1_scaled_test_X"+pc_str+".csv"), index_col=0)
+        return X
+    elif set == "24000_lgb_tree_5":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "ML5round1_scaled_test_X_lgb_tree_5"+pc_str+".csv"), index_col=0)
+        return X, y_tr
+    elif set == "24000_lgb_tree_10":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "ML5round1_scaled_test_X_lgb_tree_10"+pc_str+".csv"), index_col=0)
+        return X, y_tr
+    elif set == "24000_lgb_tree_15":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "ML5round1_scaled_test_X_lgb_tree_15"+pc_str+".csv"), index_col=0)
+        return X, y_tr
+    elif set == "24000_lgb_tree_20":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "ML5round1_scaled_test_X_lgb_tree_20"+pc_str+".csv"), index_col=0)
+        return X
+    elif set == "24000_lgb_tree_50":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "ML5round1_scaled_test_X_lgb_tree_50"+pc_str+".csv"), index_col=0)
+        return X
+    elif set == "24000_lgb_tree_100":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "ML5round1_scaled_test_X_lgb_tree_100"+pc_str+".csv"), index_col=0)
+        return X
+    elif set == "24000_lgb_tree_200":
+        test_dir = os.path.join(features_dir, "test")
+        X = pd.read_csv(os.path.join(test_dir, "ML5round1_scaled_test_X_lgb_tree_200"+pc_str+".csv"), index_col=0)
         return X
     else:
         raise ValueError("Set type doesn't exist")
