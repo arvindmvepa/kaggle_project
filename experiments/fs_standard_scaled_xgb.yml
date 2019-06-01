@@ -1,9 +1,9 @@
-save_results: exp10.csv
+save_results: exp11.csv
 search_type: random
 num_searches: 40
-n_fold: 5
-shuffle: False
-rs: null
+n_fold: 10
+shuffle: True
+rs: 41
 
 xgb:
   early_stopping:
