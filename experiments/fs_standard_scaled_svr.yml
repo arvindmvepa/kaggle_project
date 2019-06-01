@@ -1,0 +1,38 @@
+save_results: exp10.csv
+search_type: random
+num_searches: 40
+n_fold: 5
+shuffle: False
+rs: null
+
+svr:
+  C:
+  - .001
+  - .01
+  - .1
+  - 1.0
+  - 1.0
+  - 1.0
+  - 10.0
+  - 100.0
+  shrinking:
+  - True
+  - True
+  - True
+  - True
+  - False
+  kernel:
+  - rbf
+  gamma:
+  - auto
+  - auto
+  - auto
+  - auto
+  - .001
+  - .0001
+  - .01
+  - .1
+  fs:
+  - standard_scaled
+  - standard_scaled_pc_0.01
+  - standard_scaled_pc_0.05

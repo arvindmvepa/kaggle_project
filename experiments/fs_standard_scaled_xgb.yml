@@ -1,0 +1,49 @@
+save_results: exp10.csv
+search_type: random
+num_searches: 40
+n_fold: 5
+shuffle: False
+rs: null
+
+xgb:
+  early_stopping:
+  - {test_size: .1, early_stopping_rounds: 200}
+  - {test_size: .2, early_stopping_rounds: 200}
+  - {test_size: .1, early_stopping_rounds: 400}
+  - {test_size: .2, early_stopping_rounds: 400}
+  - {}
+  - {}
+  - {}
+  - {}
+  num_boost_round:
+  - 5000
+  - 10000
+  - 20000
+  - 30000
+  - 40000
+  - 50000
+  eta:
+  - .01
+  - .05
+  - .1
+  max_depth:
+  - 3
+  - 5
+  - 10
+  - 20
+  subsample:
+  - .1
+  - .5
+  - .75
+  - .9
+  - 1.0
+  objective:
+  - reg:linear
+  silent:
+  - true
+  nthread:
+  - 4
+  fs:
+  - standard_scaled
+  - standard_scaled_pc_0.01
+  - standard_scaled_pc_0.05

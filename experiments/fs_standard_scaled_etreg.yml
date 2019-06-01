@@ -1,0 +1,28 @@
+save_results: exp10.csv
+search_type: random
+num_searches: 40
+n_fold: 5
+shuffle: False
+rs: null
+
+etreg:
+  n_estimators:
+  - 5
+  - 10
+  - 50
+  - 100
+  - 200
+  criterion:
+  - mse
+  max_depth:
+  - null
+  - null
+  - null
+  - 5
+  - 10
+  - 20
+  - 50
+  fs:
+  - standard_scaled
+  - standard_scaled_pc_0.01
+  - standard_scaled_pc_0.05
