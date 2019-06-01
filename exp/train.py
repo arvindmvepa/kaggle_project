@@ -17,22 +17,51 @@ def train_get_test_preds(X, Y, X_test, params, alg="lr"):
     # retrieve algorithm
     model_cls, model_type = alg_map[alg]
 
+    early_stopping = params.pop("early_stopping", {})
+    num_boost_round = params.pop("num_boost_round", 10)
+
     if model_type == 'sklearn':
         model = model_cls(**params)
         model.fit(X, Y)
         y_pred = model.predict(X_test)
     if model_type == 'lgb':
         model = model_cls(**params)
-        model.fit(X, Y)
+        if early_stopping:
+            test_size = early_stopping.get("test_size", .10)
+            X_t, X_e, Y_t, Y_e = train_test_split(X, Y, test_size=test_size)
+            eval_metric = early_stopping.get("eval_metric", "mae")
+            early_stopping_rounds = early_stopping.get("early_stopping_rounds", 200)
+            model.fit(X_t, Y_t, eval_set=[(X_e, Y_e)], eval_metric=eval_metric, verbose=10000,
+                      early_stopping_rounds=early_stopping_rounds)
+        else:
+            model.fit(X, Y)
         y_pred = model.predict(X_test)
     if model_type == 'xgb':
-        # add early stopping option
-        train_data = model_cls.DMatrix(data=X, label=Y, feature_names=X.columns)
-        model = model_cls.train(dtrain=train_data, num_boost_round=num_boost_round, params=params)
+        if early_stopping:
+            test_size = early_stopping.get("test_size", .10)
+            early_stopping_rounds = early_stopping.get("early_stopping_rounds", "200")
+            X_t, X_e, Y_t, Y_e = train_test_split(X, Y, test_size=test_size)
+            train_t_data = model_cls.DMatrix(data=X_t, label=Y_t, feature_names=X_t.columns)
+            valid_e_data = model_cls.DMatrix(data=X_e, label=Y_e, feature_names=X_e.columns)
+            watchlist = [(train_t_data, 'train_t'), (valid_e_data, 'valid_e')]
+
+            model = model_cls.train(dtrain=train_t_data, num_boost_round=num_boost_round, evals=watchlist,
+                                    early_stopping_rounds=early_stopping_rounds, verbose_eval=500, params=params)
+        else:
+            train_data = model_cls.DMatrix(data=X, label=Y, feature_names=X.columns)
+            model = model_cls.train(dtrain=train_data, num_boost_round=num_boost_round, params=params)
         y_pred = model.predict(model_cls.DMatrix(X_test, feature_names=X.columns))
     if model_type == 'cat':
-        model = model_cls(**params)
-        model.fit(X, Y, cat_features=[], verbose=False)
+        if early_stopping:
+            test_size = early_stopping.get("test_size", .10)
+            X_t, X_e, Y_t, Y_e = train_test_split(X, Y, test_size=test_size)
+            eval_metric = early_stopping.get("eval_metric", "MAE")
+            use_best_model = early_stopping.get("use_best_model", True)
+            model = model_cls(eval_metric=eval_metric, **params)
+            model.fit(X_t, Y_t, eval_set=(X_e, Y_e), cat_features=[], use_best_model=use_best_model, verbose=False)
+        else:
+            model = model_cls(**params)
+            model.fit(X, Y, cat_features=[], verbose=False)
         y_pred = model.predict(X_test)
 
     y_pred = y_pred.reshape(-1, )
