@@ -111,7 +111,14 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
             model = model_cls(**params)
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
-                X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train, test_size = test_size)
+                if test_eval:
+                    X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train,
+                                                                                  test_size = test_size)
+                else:
+                    X_t_train = X_train
+                    X_e_train = X_valid
+                    y_t_train = y_train
+                    y_e_train = y_valid
                 eval_metric = early_stopping.get("eval_metric", "mae")
                 early_stopping_rounds = early_stopping.get("early_stopping_rounds", 200)
                 model.fit(X_t_train, y_t_train, eval_set=[(X_e_train, y_e_train)], eval_metric=eval_metric,
@@ -126,7 +133,14 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
                 early_stopping_rounds = early_stopping.get("early_stopping_rounds", "200")
-                X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train, test_size = test_size)
+                if test_eval:
+                    X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train,
+                                                                                  test_size = test_size)
+                else:
+                    X_t_train = X_train
+                    X_e_train = X_valid
+                    y_t_train = y_train
+                    y_e_train = y_valid
                 train_t_data = model_cls.DMatrix(data=X_t_train, label=y_t_train, feature_names=X_t_train.columns)
                 valid_e_data = model_cls.DMatrix(data=X_e_train, label=y_e_train, feature_names=X_e_train.columns)
                 watchlist = [(train_t_data, 'train_t'), (valid_e_data, 'valid_e')]
@@ -149,11 +163,18 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
         if model_type == 'cat':
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
-                X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train, test_size = test_size)
+                if test_eval:
+                    X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train,
+                                                                                  test_size = test_size)
+                else:
+                    X_t_train = X_train
+                    X_e_train = X_valid
+                    y_t_train = y_train
+                    y_e_train = y_valid
                 eval_metric = early_stopping.get("eval_metric", "MAE")
                 use_best_model = early_stopping.get("use_best_model", True)
                 model = model_cls(eval_metric=eval_metric, **params)
-                model.fit(X_train, y_train, eval_set=(X_e_train, y_e_train), cat_features=[],
+                model.fit(X_t_train, y_t_train, eval_set=(X_e_train, y_e_train), cat_features=[],
                           use_best_model=use_best_model, verbose=False)
             else:
                 model = model_cls(**params)
