@@ -58,7 +58,7 @@ def train_get_test_preds(X, Y, X_test, params, alg="lr"):
             eval_metric = early_stopping.get("eval_metric", "MAE")
             use_best_model = early_stopping.get("use_best_model", True)
             model = model_cls(eval_metric=eval_metric, **params)
-            model.fit(X_t, Y_t, eval_set=(X_e, Y_e), cat_features=[], use_best_model=use_best_model, verbose=False)
+            model.fit(X, Y, eval_set=(X_e, Y_e), cat_features=[], use_best_model=use_best_model, verbose=False)
         else:
             model = model_cls(**params)
             model.fit(X, Y, cat_features=[], verbose=False)
