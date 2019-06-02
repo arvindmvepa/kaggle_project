@@ -174,7 +174,7 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
                 eval_metric = early_stopping.get("eval_metric", "MAE")
                 use_best_model = early_stopping.get("use_best_model", True)
                 model = model_cls(eval_metric=eval_metric, **params)
-                model.fit(X_t_train, y_t_train, eval_set=(X_e_train, y_e_train), cat_features=[],
+                model.fit(X_train, y_train, eval_set=(X_e_train, y_e_train), cat_features=[],
                           use_best_model=use_best_model, verbose=False)
             else:
                 model = model_cls(**params)
