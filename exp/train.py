@@ -111,7 +111,7 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
             model = model_cls(**params)
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
-                if test_eval:
+                if not test_eval:
                     X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train,
                                                                                   test_size = test_size)
                 else:
@@ -133,7 +133,7 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
                 early_stopping_rounds = early_stopping.get("early_stopping_rounds", "200")
-                if test_eval:
+                if not test_eval:
                     X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train,
                                                                                   test_size = test_size)
                 else:
@@ -163,7 +163,7 @@ def train_model(params, fs="standard_scaled", n_fold=10, shuffle=True, rs=None, 
         if model_type == 'cat':
             if early_stopping:
                 test_size = early_stopping.get("test_size", .10)
-                if test_eval:
+                if not test_eval:
                     X_t_train, X_e_train, y_t_train, y_e_train = train_test_split(X_train, y_train,
                                                                                   test_size = test_size)
                 else:
